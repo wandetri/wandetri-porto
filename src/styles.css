@@ -92,8 +92,25 @@ nav a:hover { color: white; }
 .button-primary span { display: inline-block; margin-left: 17px; }
 .button-secondary { border: 1px solid var(--line); background: rgba(255,255,255,.025); }
 .hero-meta { display: flex; gap: 30px; margin-top: 65px; color: #777580; font: 400 10px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .1em; }
-.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 680px; }
-.showreel { width: min(430px, 72%); aspect-ratio: 9 / 14; transform: rotate(2.5deg); box-shadow: 0 35px 90px rgba(0,0,0,.55); }
+.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 680px; perspective: 1200px; isolation: isolate; }
+.plexus-canvas { position: absolute; inset: -8%; width: 116%; height: 116%; z-index: -1; opacity: .9; mask-image: radial-gradient(circle, black 30%, transparent 78%); }
+.showreel-tilt {
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --glow-x: 50%;
+  --glow-y: 35%;
+  position: relative;
+  z-index: 2;
+  width: min(430px, 72%);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(2.5deg);
+  transition: transform .16s ease-out;
+  will-change: transform;
+}
+.showreel-float { position: relative; transform-style: preserve-3d; animation: showreelFloat 5s ease-in-out infinite; }
+.showreel { width: 100%; aspect-ratio: 9 / 14; box-shadow: 0 35px 90px rgba(0,0,0,.55); transform: translateZ(18px); }
+.showreel-glow { position: absolute; inset: 0; z-index: 3; border-radius: 20px; pointer-events: none; transform: translateZ(28px); background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(255,255,255,.22), transparent 28%); mix-blend-mode: screen; }
+.showreel-tilt::after { content: ''; position: absolute; inset: 8% -4% -7% 7%; z-index: -1; border-radius: 28px; background: rgba(131,83,255,.32); filter: blur(42px); transform: translateZ(-35px); opacity: .75; }
 .showreel-label { position: absolute; top: 5%; left: 6%; z-index: 3; font: 500 10px 'DM Mono', monospace; letter-spacing: .13em; text-transform: uppercase; }
 .showreel-label span { color: #76747f; margin-left: 10px; }
 .hero-orbit { position: absolute; border: 1px solid rgba(255,255,255,.07); border-radius: 50%; }
@@ -177,6 +194,7 @@ footer { width: min(1400px, calc(100% - 64px)); margin: 0 auto; padding: 32px 0 
 footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .1em; }
 
 @keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes showreelFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
 @media (max-width: 1100px) {
@@ -197,7 +215,8 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
   .hero-intro { font-size: 15px; }
   .hero-meta { margin-top: 40px; justify-content: space-between; gap: 12px; }
   .hero-visual { min-height: 610px; margin-top: 10px; }
-  .showreel { width: min(385px, 78%); }
+  .showreel-tilt { width: min(385px, 78%); }
+  .showreel-tilt { transform: rotateX(2deg) rotateY(-3deg) rotateZ(2.5deg); }
   .orbit-one { width: 530px; height: 530px; }
   .orbit-two { width: 390px; height: 390px; }
   .note-one { left: 0; }.note-two { right: 0; }
