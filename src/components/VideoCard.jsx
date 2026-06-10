@@ -1,12 +1,14 @@
 import MediaVideo from './MediaVideo'
+import PlatformLogo from './PlatformLogo'
 
 function VideoCard({ effect, index }) {
   return (
     <article className={`video-card accent-${effect.accent}`} style={{ '--delay': `${index * 45}ms` }}>
-      <div className="video-card-media">
-        <MediaVideo src={effect.video} poster={effect.poster} />
-        <span className="platform-label">{effect.platform}</span>
-      </div>
+      <MediaVideo src={effect.video} poster={effect.poster} className="video-card-media" />
+      <span className="platform-label">
+        <PlatformLogo platform={effect.platform} />
+        <span>{effect.platform}</span>
+      </span>
       <div className="video-card-content">
         <div className="card-title-row">
           <h3>{effect.title}</h3>
@@ -17,6 +19,7 @@ function VideoCard({ effect, index }) {
           {effect.tags.map((tag) => <span key={tag}>{tag}</span>)}
         </div>
       </div>
+      <span className="video-card-border" aria-hidden="true" />
     </article>
   )
 }
