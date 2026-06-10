@@ -131,3 +131,22 @@ export const capabilities = [
   { title: 'Motion Design', video: 'videos/music-persona.mp4', poster: 'posters/music-persona.svg', detail: 'Typography · rhythm · transitions' },
   { title: 'AI-assisted Visuals', video: 'videos/genshin-randomizer.mp4', poster: 'posters/genshin-randomizer.svg', detail: 'Concepting · image systems · finishing' },
 ]
+
+export const capcutVfxItems = [
+  { id: 'cvfx-01', title: 'Fire Burst', video: 'videos/capcut/fire-burst.mp4', poster: 'posters/burning-mad.svg', type: 'Fire FX', description: 'A fast flame impact built for transitions and beat accents.' },
+  { id: 'cvfx-02', title: 'Chrome Melt', video: 'videos/capcut/chrome-melt.mp4', poster: 'posters/chrome-shift.svg', type: 'Transformation', description: 'Liquid metallic shading sweeps across the subject.' },
+  { id: 'cvfx-03', title: 'Neon Echo', video: 'videos/capcut/neon-echo.mp4', poster: 'posters/echo-control.svg', type: 'Glitch FX', description: 'Layered color echoes create a responsive digital trail.' },
+  { id: 'cvfx-04', title: 'Aura Bloom', video: 'videos/capcut/aura-bloom.mp4', poster: 'posters/digital-bloom.svg', type: 'Energy FX', description: 'Soft energy petals expand around a portrait reveal.' },
+  { id: 'cvfx-05', title: 'Bass Impact', video: 'videos/capcut/bass-impact.mp4', poster: 'posters/music-persona.svg', type: 'Music FX', description: 'A compact beat hit with scale, blur, and graphic shockwaves.' },
+  { id: 'cvfx-06', title: 'Character Flash', video: 'videos/capcut/character-flash.mp4', poster: 'posters/genshin-randomizer.svg', type: 'Anime FX', description: 'A bright character-card reveal with impact particles.' },
+  { id: 'cvfx-07', title: 'Pixel Break', video: 'videos/capcut/pixel-break.mp4', poster: 'posters/echo-control.svg', type: 'Digital FX', description: 'The image fragments into blocks before resolving cleanly.' },
+  { id: 'cvfx-08', title: 'Light Sweep', video: 'videos/capcut/light-sweep.mp4', poster: 'posters/chrome-shift.svg', type: 'Overlay', description: 'A controlled reflective pass for fashion and product edits.' },
+  { id: 'cvfx-09', title: 'Smoke Portal', video: 'videos/capcut/smoke-portal.mp4', poster: 'posters/burning-mad.svg', type: 'Smoke FX', description: 'A dense circular smoke reveal with a dark cinematic edge.' },
+  { id: 'cvfx-10', title: 'Prism Split', video: 'videos/capcut/prism-split.mp4', poster: 'posters/music-persona.svg', type: 'Refraction', description: 'Chromatic slices divide the frame into rhythmic layers.' },
+  { id: 'cvfx-11', title: 'Electric Outline', video: 'videos/capcut/electric-outline.mp4', poster: 'posters/digital-bloom.svg', type: 'Energy FX', description: 'Animated current traces the subject silhouette.' },
+  { id: 'cvfx-12', title: 'Frame Collapse', video: 'videos/capcut/frame-collapse.mp4', poster: 'posters/odd-maamoul-out.svg', type: 'Transition', description: 'The composition folds inward before opening on the next shot.' },
+  { id: 'cvfx-13', title: 'Redline', video: 'videos/capcut/redline.mp4', poster: 'posters/burning-mad.svg', type: 'Motion Graphics', description: 'Fast editorial linework punctuates movement and typography.' },
+  { id: 'cvfx-14', title: 'Ghost Trail', video: 'videos/capcut/ghost-trail.mp4', poster: 'posters/echo-control.svg', type: 'Trail FX', description: 'Time-offset silhouettes follow the subject through the cut.' },
+  { id: 'cvfx-15', title: 'Soft Focus Bloom', video: 'videos/capcut/soft-focus-bloom.mp4', poster: 'posters/cake-language.svg', type: 'Beauty FX', description: 'A diffused highlight bloom for dreamy portrait edits.' },
+  { id: 'cvfx-16', title: 'Type Pulse', video: 'videos/capcut/type-pulse.mp4', poster: 'posters/music-persona.svg', type: 'Typography', description: 'Kinetic type expands and contracts on musical accents.' },
+]

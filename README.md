@@ -11,10 +11,11 @@ npm run dev
 
 ## Edit the portfolio
 
-- Selected works, modal breakdowns, and capabilities: `src/data/effects.js`
+- Selected works, CapCut VFX library, modal breakdowns, and capabilities: `src/data/effects.js`
 - Bio and credentials: `src/components/About.jsx`
 - Contact links: `src/components/Contact.jsx`
 - Video files: `public/videos/`
+- CapCut library clips: `public/videos/capcut/`
 - Poster images: `public/posters/`
 
 For best performance, use short H.264 MP4 loops and keep preview videos below 3-5 MB. The demo wall and capability films use poster images and `preload="none"` to avoid downloading every video on first load.
