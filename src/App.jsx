@@ -1,18 +1,15 @@
 import { useState } from 'react'
 import About from './components/About'
-import CaseStudies from './components/CaseStudies'
-import CategoryFilter from './components/CategoryFilter'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
+import ProjectModal from './components/ProjectModal'
+import VfxBreakdown from './components/VfxBreakdown'
 import VideoGrid from './components/VideoGrid'
-import { categories, effects } from './data/effects'
+import { effects } from './data/effects'
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState('All')
-  const visibleEffects = activeCategory === 'All'
-    ? effects
-    : effects.filter((effect) => effect.category === activeCategory)
+  const [selectedProject, setSelectedProject] = useState(null)
 
   return (
     <div className="site-shell">
@@ -22,34 +19,31 @@ function App() {
           <span>Wande Tricada</span>
         </a>
         <nav aria-label="Main navigation">
-          <a href="#effects">Work</a>
+          <a href="#works">Works</a>
+          <a href="#capabilities">VFX Lab</a>
           <a href="#about">About</a>
-          <a className="nav-contact" href="#contact">Let's talk</a>
+          <a className="nav-contact" href="#contact">Contact</a>
         </nav>
       </header>
 
       <main>
         <Hero />
-        <section className="section effects-section" id="effects">
+        <section className="section works-section" id="works">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Selected effects</p>
-              <h2>Built to be played.</h2>
+              <p className="eyebrow">Interactive VFX Showroom · Selected 01–08</p>
+              <h2>VFX demo wall.</h2>
             </div>
-            <p>Experiments in interaction, identity, play, and visual transformation.</p>
+            <p>Curated camera effects, transformations, playable systems, and motion work. Select a film to view its process.</p>
           </div>
-          <CategoryFilter
-            categories={categories}
-            activeCategory={activeCategory}
-            onChange={setActiveCategory}
-          />
-          <VideoGrid effects={visibleEffects} />
+          <VideoGrid effects={effects} onSelect={setSelectedProject} />
         </section>
-        <CaseStudies />
+        <VfxBreakdown />
         <About />
         <Contact />
       </main>
       <Footer />
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   )
 }

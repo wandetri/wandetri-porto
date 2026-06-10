@@ -1,26 +1,23 @@
 import MediaVideo from './MediaVideo'
-import PlatformLogo from './PlatformLogo'
 
-function VideoCard({ effect, index }) {
+function VideoCard({ effect, index, onSelect }) {
   return (
-    <article className={`video-card accent-${effect.accent}`} style={{ '--delay': `${index * 45}ms` }}>
+    <button
+      type="button"
+      className="video-card"
+      onClick={() => onSelect(effect)}
+      style={{ '--delay': `${index * 45}ms` }}
+      aria-label={`View ${effect.title} project breakdown`}
+    >
       <MediaVideo src={effect.video} poster={effect.poster} className="video-card-media" />
-      <span className="platform-label">
-        <PlatformLogo platform={effect.platform} />
-        <span>{effect.platform}</span>
+      <span className="work-number">{String(index + 1).padStart(2, '0')}</span>
+      <span className="video-card-content">
+        <span className="work-meta">{effect.vfxType} · {effect.platform}</span>
+        <strong>{effect.title}</strong>
+        <span className="work-mechanic">{effect.interaction}</span>
       </span>
-      <div className="video-card-content">
-        <div className="card-title-row">
-          <h3>{effect.title}</h3>
-          <span className="card-arrow">↗</span>
-        </div>
-        <p>{effect.description}</p>
-        <div className="tag-list">
-          {effect.tags.map((tag) => <span key={tag}>{tag}</span>)}
-        </div>
-      </div>
-      <span className="video-card-border" aria-hidden="true" />
-    </article>
+      <span className="view-project">View breakdown ↗</span>
+    </button>
   )
 }
 

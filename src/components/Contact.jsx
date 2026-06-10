@@ -10,8 +10,8 @@ function Contact() {
     <section className="section contact" id="contact">
       <div className="contact-glow" />
       <p className="eyebrow">Have an idea?</p>
-      <h2>Let’s make it<br /><em>interactive.</em></h2>
-      <p className="contact-intro">Available for creative collaborations, branded effects, and playful experiments.</p>
+      <h2>Build the next<br /><em>camera experience.</em></h2>
+      <p className="contact-intro">Available for VFX commissions, branded camera effects, interactive campaigns, and creative technology collaborations.</p>
       <div className="contact-links">
         {links.map(([label, value, href]) => (
           <a href={href} key={label}>

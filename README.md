@@ -1,6 +1,6 @@
 # Wande Tricada Portfolio
 
-A video-first portfolio for Interactive AR & VFX Creator Wande Tricada, built with Vite and React.
+A cinematic, video-first VFX showroom for Interactive AR & VFX Creator Wande Tricada, built with Vite and React.
 
 ## Run locally
 
@@ -11,13 +11,13 @@ npm run dev
 
 ## Edit the portfolio
 
-- Effect cards and case studies: `src/data/effects.js`
+- Selected works, modal breakdowns, and capabilities: `src/data/effects.js`
 - Bio and credentials: `src/components/About.jsx`
 - Contact links: `src/components/Contact.jsx`
 - Video files: `public/videos/`
 - Poster images: `public/posters/`
 
-For best performance, use short H.264 MP4 loops and keep thumbnail videos below 3-5 MB. Grid videos use poster images and `preload="none"` to avoid downloading every video on first load.
+For best performance, use short H.264 MP4 loops and keep preview videos below 3-5 MB. The demo wall and capability films use poster images and `preload="none"` to avoid downloading every video on first load.
 
 ## Build
 
