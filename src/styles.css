@@ -170,8 +170,33 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
   .capcut-vfx-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
   .capcut-vfx-overlay { padding: 9px; opacity: 1; background: linear-gradient(0deg, rgba(0,0,0,.78), transparent 65%); }
   .capcut-vfx-overlay strong { font-size: 10px; }
-  .video-grid { grid-template-columns: 1fr; gap: 12px; }
-  .video-card { width: min(100%, 430px); margin-inline: auto; }
+  #works .video-grid {
+    display: block;
+    height: calc(100svh - 16px);
+    max-height: 100svh;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  #works .video-grid::-webkit-scrollbar { display: none; }
+  #works .video-grid::after {
+    content: '';
+    display: block;
+    height: 28svh;
+    scroll-snap-align: end;
+  }
+  #works .video-card {
+    width: min(100%, 430px);
+    min-height: calc(100svh - 16px);
+    margin: 0 auto 12px;
+    aspect-ratio: auto;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  #works .video-card-media video { object-fit: contain; }
   .video-card-content { left: 17px; right: 17px; bottom: 18px; }
   .video-card-content strong { font-size: 34px; }
   .work-description { font-size: 10px; }
@@ -198,4 +223,9 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
 
 @media (max-width: 520px) {
   .capcut-vfx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #works .video-grid { scroll-snap-type: y proximity; }
+  #works .video-card { scroll-snap-stop: normal; }
 }
