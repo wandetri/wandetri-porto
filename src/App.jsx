@@ -16,9 +16,9 @@ function App() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Wande Tricada home">
-          <span className="brand-mark">WT</span>
-          <span>Wande Tricada</span>
+        <a className="brand" href="#top" aria-label="wandetri home">
+          <span className="brand-mark">w</span>
+          <span>wandetri</span>
         </a>
         <nav aria-label="Main navigation">
           <a href="#works">Works</a>
