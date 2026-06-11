@@ -5,13 +5,11 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import ProjectModal from './components/ProjectModal'
-import VfxModal from './components/VfxModal'
 import VideoGrid from './components/VideoGrid'
 import { effects } from './data/effects'
 
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
-  const [selectedVfx, setSelectedVfx] = useState(null)
 
   return (
     <div className="site-shell">
@@ -40,13 +38,12 @@ function App() {
           </div>
           <VideoGrid effects={effects} onSelect={setSelectedProject} />
         </section>
-        <CapCutVfxLibrary onSelect={setSelectedVfx} />
+        <CapCutVfxLibrary />
         <About />
         <Contact />
       </main>
       <Footer />
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-      <VfxModal item={selectedVfx} onClose={() => setSelectedVfx(null)} />
     </div>
   )
 }

@@ -8,7 +8,7 @@ function VideoCard({ effect, index, onSelect }) {
       className={`video-card ${effect.badgeType ? 'has-badge' : ''}`}
       onClick={() => onSelect(effect)}
       style={{ '--delay': `${index * 45}ms` }}
-      aria-label={`View ${effect.title} project breakdown`}
+      aria-label={`View ${effect.title} project details`}
     >
       <MediaVideo src={effect.video} poster={effect.poster} className="video-card-media" />
       <span className="work-number">{String(index + 1).padStart(2, '0')}</span>
@@ -25,7 +25,7 @@ function VideoCard({ effect, index, onSelect }) {
           {effect.tags.map((tag) => <span key={tag}>{tag}</span>)}
         </span>
       </span>
-      <span className="view-project">View breakdown ↗</span>
+      <span className="view-project">View details ↗</span>
     </button>
   )
 }

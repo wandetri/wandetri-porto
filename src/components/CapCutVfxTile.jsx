@@ -1,16 +1,11 @@
-function CapCutVfxTile({ item, onSelect }) {
+function CapCutVfxTile({ item }) {
   return (
-    <button
-      type="button"
-      className="capcut-vfx-tile"
-      onClick={() => onSelect(item)}
-      aria-label={`View ${item.title} VFX demo`}
-    >
+    <div className="capcut-vfx-tile">
       <img className="capcut-vfx-film" src={item.image} alt="" loading="lazy" decoding="async" />
       <span className="capcut-vfx-overlay">
         <strong>{item.title}</strong>
       </span>
-    </button>
+    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { capcutVfxItems } from '../data/effects'
 import CapCutVfxTile from './CapCutVfxTile'
 
-function CapCutVfxLibrary({ onSelect }) {
+function CapCutVfxLibrary() {
   return (
     <section className="section capcut-library" id="capcut-library">
       <div className="library-heading">
@@ -13,7 +13,7 @@ function CapCutVfxLibrary({ onSelect }) {
       </div>
       <div className="capcut-vfx-grid">
         {capcutVfxItems.map((item) => (
-          <CapCutVfxTile item={item} onSelect={onSelect} key={item.id} />
+          <CapCutVfxTile item={item} key={item.id} />
         ))}
       </div>
     </section>
