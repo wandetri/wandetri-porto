@@ -6,10 +6,10 @@ function CapCutVfxLibrary({ onSelect }) {
     <section className="section capcut-library" id="capcut-library">
       <div className="library-heading">
         <div>
-          <p className="eyebrow">CapCut · Short-form experiments · 01–{capcutVfxItems.length}</p>
+          <p className="eyebrow">CapCut · VFX Creator Program · {capcutVfxItems.length} Selected Works</p>
           <h2>CapCut VFX Library</h2>
         </div>
-        <p>A compact collection of short-form VFX experiments, transitions, overlays, and motion effects.</p>
+        <p>{capcutVfxItems.length} effects selected from hundreds of VFX creations, interactive visuals, and motion experiments produced for the CapCut VFX Creator Program.</p>
       </div>
       <div className="capcut-vfx-grid">
         {capcutVfxItems.map((item) => (

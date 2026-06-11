@@ -155,4 +155,6 @@ export const capcutVfxItems = [
   { id: 'cvfx-20', title: 'Time Tunnel', image: 'posters/gif/time-tunnel.gif', type: 'Tunnel FX' },
   { id: 'cvfx-21', title: 'Triple Tear', image: 'posters/gif/triple-tear.gif', type: 'Paper FX' },
   { id: 'cvfx-22', title: 'Unleash Memory', image: 'posters/gif/unleash-memory.gif', type: 'Memory FX' },
+  { id: 'cvfx-23', title: 'Grid Blinking', image: 'posters/gif/grid-blinking.gif', type: 'Grid FX' },
+  { id: 'cvfx-24', title: 'Sparkly Glitch Out', image: 'posters/gif/sparkly-glitch-out.gif', type: 'Glitch FX' },
 ]
