@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import MediaVideo from './MediaVideo'
 
 function VfxModal({ item, onClose }) {
   const closeRef = useRef(null)
@@ -27,11 +26,9 @@ function VfxModal({ item, onClose }) {
     <div className="vfx-modal" role="dialog" aria-modal="true" aria-labelledby="vfx-modal-title">
       <button ref={closeRef} className="modal-close" type="button" onClick={onClose}>Close ×</button>
       <div className="vfx-modal-inner">
-        <MediaVideo src={item.video} poster={item.poster} className="vfx-modal-film" eager />
+        <img className="vfx-modal-film" src={item.image} alt={`${item.title} animated VFX preview`} />
         <div className="vfx-modal-caption">
-          <p>{item.type} · CapCut VFX Library</p>
           <h2 id="vfx-modal-title">{item.title}</h2>
-          {item.description && <span>{item.description}</span>}
         </div>
       </div>
     </div>

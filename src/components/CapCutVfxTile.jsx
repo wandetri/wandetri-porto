@@ -1,5 +1,3 @@
-import MediaVideo from './MediaVideo'
-
 function CapCutVfxTile({ item, onSelect }) {
   return (
     <button
@@ -8,10 +6,9 @@ function CapCutVfxTile({ item, onSelect }) {
       onClick={() => onSelect(item)}
       aria-label={`View ${item.title} VFX demo`}
     >
-      <MediaVideo src={item.video} poster={item.poster} className="capcut-vfx-film" />
+      <img className="capcut-vfx-film" src={item.image} alt="" loading="lazy" decoding="async" />
       <span className="capcut-vfx-overlay">
         <strong>{item.title}</strong>
-        <span>{item.type}</span>
       </span>
     </button>
   )
