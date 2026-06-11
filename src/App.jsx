@@ -5,7 +5,6 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import ProjectModal from './components/ProjectModal'
-import VfxBreakdown from './components/VfxBreakdown'
 import VfxModal from './components/VfxModal'
 import VideoGrid from './components/VideoGrid'
 import { effects } from './data/effects'
@@ -23,7 +22,7 @@ function App() {
         </a>
         <nav aria-label="Main navigation">
           <a href="#works">Works</a>
-          <a href="#capabilities">VFX Lab</a>
+          <a href="#capcut-library">CapCut VFX</a>
           <a href="#about">About</a>
           <a className="nav-contact" href="#contact">Contact</a>
         </nav>
@@ -42,7 +41,6 @@ function App() {
           <VideoGrid effects={effects} onSelect={setSelectedProject} />
         </section>
         <CapCutVfxLibrary onSelect={setSelectedVfx} />
-        <VfxBreakdown />
         <About />
         <Contact />
       </main>

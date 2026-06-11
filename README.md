@@ -11,7 +11,7 @@ npm run dev
 
 ## Edit the portfolio
 
-- Selected works, CapCut VFX library, modal breakdowns, and capabilities: `src/data/effects.js`
+- Selected works, CapCut VFX library, and modal content: `src/data/effects.js`
 - Bio and credentials: `src/components/About.jsx`
 - Contact links: `src/components/Contact.jsx`
 - Video files: `public/videos/`

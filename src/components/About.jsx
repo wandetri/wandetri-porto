@@ -10,11 +10,11 @@ function About() {
     <section className="section about" id="about">
       <div className="about-title">
         <p className="eyebrow">About</p>
-        <h2>Visual craft.<br /><em>Real-time response.</em></h2>
+        <h2>Playful ideas.<br /><em>Crafted in real time.</em></h2>
       </div>
       <div className="about-copy">
-        <p className="about-lead">Wande Tricada is an Interactive AR & VFX Creator specializing in social camera effects, playable filters, and short-form visual experiences.</p>
-        <p>Based in Indonesia, his practice combines VFX, motion design, tracking systems, and intuitive interaction. The result is work that reads instantly on camera while rewarding participation, expression, and replay.</p>
+        <p className="about-lead">Wande Tricada is an Indonesian Interactive AR & VFX Creator creating playful, visual, and shareable AR effects for TikTok Effect House, YouTube Effect Maker, and CapCut.</p>
+        <p>His work combines interaction design, real-time AR effects, game mechanics, VFX systems, motion graphics, and short-form social storytelling.</p>
         <div className="credential-list">
           {credentials.map(([number, label]) => (
             <div className="credential" key={label}>

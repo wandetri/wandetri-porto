@@ -87,7 +87,7 @@ export const effects = [
     poster: 'posters/cake-language.svg',
     badgeType: 'commissioned',
     badgeLabel: 'Commissioned',
-    badgeDetail: 'Paid project for Tokopedia',
+    badgeDetail: 'Commissioned project for TikTok Go by Tokopedia',
     note: null,
   },
   {
@@ -103,17 +103,6 @@ export const effects = [
     badgeDetail: 'Paid project for TikTok Shop Indonesia',
     note: null,
   },
-]
-
-export const capabilities = [
-  { title: 'Fire & Smoke', video: 'videos/burning-mad.mp4', poster: 'posters/burning-mad.svg', detail: 'Particles · distortion · compositing' },
-  { title: 'Energy Aura', video: 'videos/digital-bloom.mp4', poster: 'posters/digital-bloom.svg', detail: 'Glow · trails · reactive emission' },
-  { title: 'Glitch & Cyberpunk', video: 'videos/echo-control.mp4', poster: 'posters/echo-control.svg', detail: 'Displacement · echo · scan systems' },
-  { title: 'Transformation FX', video: 'videos/chrome-shift.mp4', poster: 'posters/chrome-shift.svg', detail: 'Masks · materials · reveal timing' },
-  { title: 'Face / Body Tracking', video: 'videos/digital-bloom.mp4', poster: 'posters/digital-bloom.svg', detail: 'Landmarks · mesh · expression data' },
-  { title: 'Interactive Game FX', video: 'videos/cake-language.mp4', poster: 'posters/cake-language.svg', detail: 'Input · collision · game states' },
-  { title: 'Motion Design', video: 'videos/music-persona.mp4', poster: 'posters/music-persona.svg', detail: 'Typography · rhythm · transitions' },
-  { title: 'AI-assisted Visuals', video: 'videos/genshin-randomizer.mp4', poster: 'posters/genshin-randomizer.svg', detail: 'Concepting · image systems · finishing' },
 ]
 
 export const capcutVfxItems = [
