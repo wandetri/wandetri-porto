@@ -34,10 +34,10 @@ function App() {
         <section className="section works-section" id="works">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Interactive VFX Showroom · Selected 01–08</p>
-              <h2>VFX demo wall.</h2>
+              <p className="eyebrow">TikTok Effects · Community Interactive Works · 8 Selected Effects</p>
+              <h2>Interactive Effects Showcase</h2>
             </div>
-            <p>Curated camera effects, transformations, playable systems, and motion work. Select a film to view its process.</p>
+            <p>8 community-facing interactive effects designed for TikTok, blending gameplay, storytelling, visual effects, and social sharing experiences.</p>
           </div>
           <VideoGrid effects={effects} onSelect={setSelectedProject} />
         </section>

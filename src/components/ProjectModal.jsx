@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import EffectBadge from './EffectBadge'
 import MediaVideo from './MediaVideo'
 
 function ProjectModal({ project, onClose }) {
@@ -31,19 +32,23 @@ function ProjectModal({ project, onClose }) {
           <MediaVideo src={project.video} poster={project.poster} className="modal-video" eager />
         </div>
         <div className="modal-copy">
-          <p className="eyebrow">{project.vfxType} · {project.platform}</p>
+          <p className="eyebrow">{project.platform} · Community Interactive Work</p>
           <h2 id="project-title">{project.title}</h2>
           <p className="modal-intro">{project.description}</p>
-          <div className="system-flow">
-            <div><span>01 · Input</span><p>{project.input}</p></div>
-            <div><span>02 · VFX System</span><p>{project.system}</p></div>
-            <div><span>03 · Output</span><p>{project.output}</p></div>
+          <div className="modal-tag-list" aria-label="Project tags">
+            {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
           </div>
-          <dl className="modal-facts">
-            <div><dt>Interaction mechanic</dt><dd>{project.interaction}</dd></div>
-            <div><dt>Tools used</dt><dd>{project.tools.join(' · ')}</dd></div>
-            <div><dt>Final result</dt><dd>{project.result}</dd></div>
-          </dl>
+          {project.badgeType && (
+            <div className="modal-recognition">
+              <EffectBadge
+                type={project.badgeType}
+                label={project.badgeLabel}
+                detail={project.badgeDetail}
+                expanded
+              />
+            </div>
+          )}
+          {project.note && <p className="modal-note"><span>Note</span>{project.note}</p>}
         </div>
       </div>
     </div>

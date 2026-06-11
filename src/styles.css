@@ -61,16 +61,25 @@ nav a:hover { color: white; }
 .video-card { position: relative; aspect-ratio: 9 / 16; min-width: 0; padding: 0; overflow: hidden; cursor: pointer; text-align: left; border: 0; background: #141414; animation: cardIn .55s both; animation-delay: var(--delay); }
 .video-card-media { position: absolute; inset: 0; width: 100%; height: 100%; }
 .video-card-media video { transition: transform .9s cubic-bezier(.2,.7,.2,1), filter .5s; }
-.video-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.9), transparent 50%); pointer-events: none; }
+.video-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.94), rgba(0,0,0,.42) 38%, transparent 62%); pointer-events: none; }
 .video-card:hover .video-card-media video { transform: scale(1.035); filter: contrast(1.04); }
 .work-number { position: absolute; top: 20px; left: 22px; z-index: 2; font: 500 10px 'DM Mono', monospace; }
-.video-card-content { position: absolute; left: 24px; right: 24px; bottom: 24px; z-index: 2; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 7px 28px; }
-.work-meta { grid-column: 1 / 3; color: #c1beb8; font: 500 9px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .12em; }
+.video-card-content { position: absolute; left: 24px; right: 24px; bottom: 24px; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.work-meta { color: #c1beb8; font: 500 9px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .12em; }
 .video-card-content strong { font-size: clamp(28px, 3vw, 48px); line-height: 1; letter-spacing: -.05em; font-weight: 500; }
-.work-mechanic { color: #c1beb8; font-size: 11px; }
+.work-description { max-width: 95%; color: #d2cfc9; font-size: 11px; line-height: 1.5; }
+.work-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 3px; }
+.work-tags span { padding: 5px 7px; border: 1px solid rgba(255,255,255,.22); color: #c5c2bc; background: rgba(0,0,0,.24); font: 500 7px 'DM Mono', monospace; letter-spacing: .05em; text-transform: uppercase; }
 .view-project { position: absolute; top: 18px; right: 20px; z-index: 2; padding: 9px 11px; opacity: 0; border: 1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.35); backdrop-filter: blur(8px); font: 500 8px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .1em; transition: opacity .3s; }
+.video-card.has-badge .view-project { top: 58px; }
 .video-card:hover .view-project, .video-card:focus-visible .view-project { opacity: 1; }
 .video-card:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+.effect-badge { position: absolute; top: 18px; right: 20px; z-index: 4; display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.26); border-radius: 100px; color: #f3f0e9; background: rgba(8,8,8,.72); backdrop-filter: blur(10px); font: 600 8px 'DM Mono', monospace; letter-spacing: .09em; text-transform: uppercase; }
+.effect-badge svg { width: 13px; height: 13px; fill: currentColor; }
+.effect-badge-winner { color: #f0d99a; }
+.effect-badge-commissioned { color: #d6d3cc; }
+.badge-tooltip { position: absolute; top: calc(100% + 8px); right: 0; width: max-content; max-width: 270px; padding: 9px 11px; opacity: 0; visibility: hidden; color: #dedbd5; border: 1px solid rgba(255,255,255,.18); background: rgba(7,7,7,.94); font: 400 9px/1.5 'DM Mono', monospace; letter-spacing: 0; text-align: left; text-transform: none; transition: opacity .2s; }
+.effect-badge:hover .badge-tooltip, .effect-badge:focus-within .badge-tooltip { opacity: 1; visibility: visible; }
 
 .capcut-library { padding-top: 115px; padding-bottom: 130px; border-bottom: 1px solid var(--line); }
 .library-heading { display: flex; justify-content: space-between; align-items: end; gap: 50px; margin-bottom: 42px; }
@@ -131,6 +140,13 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
 .modal-copy { display: flex; flex-direction: column; justify-content: center; padding: 110px clamp(40px, 6vw, 100px); border-left: 1px solid var(--line); }
 .modal-copy h2 { margin: 0; font-size: clamp(58px, 7vw, 110px); line-height: .9; letter-spacing: -.07em; font-weight: 500; }
 .modal-intro { max-width: 620px; margin: 30px 0 55px; color: #aaa7a1; font-size: 15px; line-height: 1.75; }
+.modal-tag-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.modal-tag-list span { padding: 7px 9px; color: #c5c2bc; border: 1px solid rgba(255,255,255,.2); font: 500 8px 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; }
+.modal-recognition { margin-top: 32px; }
+.modal-recognition .effect-badge { position: relative; inset: auto; align-items: flex-start; border-radius: 2px; padding: 13px 15px; }
+.modal-recognition .effect-badge small { display: block; margin-left: 8px; color: #dedbd5; font: 400 10px/1.5 'DM Mono', monospace; letter-spacing: 0; text-transform: none; }
+.modal-note { display: grid; grid-template-columns: 90px 1fr; gap: 20px; max-width: 620px; margin: 30px 0 0; padding-top: 18px; color: #b7b4ae; border-top: 1px solid var(--line); font-size: 12px; line-height: 1.65; }
+.modal-note span { color: #77746f; font: 500 9px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .system-flow { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .system-flow div { min-height: 170px; padding: 20px 18px 20px 0; }
 .system-flow div + div { padding-left: 18px; border-left: 1px solid var(--line); }
@@ -185,11 +201,13 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
   .capcut-vfx-overlay strong { font-size: 10px; }
   .video-grid { grid-template-columns: 1fr; gap: 12px; }
   .video-card { width: min(100%, 430px); margin-inline: auto; }
-  .video-card-content { left: 17px; right: 17px; bottom: 18px; grid-template-columns: 1fr; }
-  .work-meta { grid-column: 1; }
+  .video-card-content { left: 17px; right: 17px; bottom: 18px; }
   .video-card-content strong { font-size: 34px; }
-  .work-mechanic { font-size: 10px; }
+  .work-description { font-size: 10px; }
+  .work-tags span { font-size: 6px; }
   .view-project { opacity: 1; }
+  .effect-badge { top: 14px; right: 14px; }
+  .video-card.has-badge .view-project { top: 52px; right: 14px; }
   .capability-section { padding-inline: 18px; }
   .capability-grid { grid-template-columns: 1fr 1fr; }
   .capability-card { min-height: 310px; }
