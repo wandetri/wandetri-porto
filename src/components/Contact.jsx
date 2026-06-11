@@ -1,8 +1,8 @@
 const links = [
-  ['Email', 'hello@wandetricada.com', 'mailto:hello@wandetricada.com'],
-  ['TikTok', '@wandetricada', '#'],
-  ['Instagram', '@wandetricada', '#'],
-  ['Behance / LinkedIn', 'View profile', '#'],
+  ['Email', 'hello@wandetri.com', 'mailto:hello@wandetri.com'],
+  ['TikTok', '@wandetri', '#'],
+  ['Instagram', '@wandetri', '#'],
+  ['Behance / LinkedIn', '@wandetri', '#'],
 ]
 
 function Contact() {
