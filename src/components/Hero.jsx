@@ -12,8 +12,8 @@ function Hero() {
           <h2>Interactive AR & VFX Creator</h2>
           <p>Creating AR effects, VFX systems, and playful interactive visuals for social platforms.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#works">View Works</a>
-            <a className="button button-secondary" href="#capcut-library">Explore CapCut VFX</a>
+            <a className="button button-primary" href="#works">Interactive Effects</a>
+            <a className="button button-secondary" href="#capcut-library">CapCut VFX Library</a>
           </div>
         </div>
       </div>
