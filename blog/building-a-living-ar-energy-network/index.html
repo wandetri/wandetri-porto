@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08080d" />
+    <meta name="description" content="A practical breakdown of designing a lightweight particle and plexus system that feels like a living AR tracking network." />
+    <meta property="og:title" content="Building a Living AR Energy Network — wandetri" />
+    <meta property="og:description" content="A practical breakdown of designing a lightweight particle and plexus system that feels like a living AR tracking network." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://wandetri.com/blog/building-a-living-ar-energy-network/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Building a Living AR Energy Network — wandetri</title>
+    <script type="module" crossorigin src="../../assets/main-Bqj5ERMD.js"></script>
+    <link rel="modulepreload" crossorigin href="../../assets/modulepreload-polyfill-DxF70BK8.js">
+    <link rel="stylesheet" crossorigin href="../../assets/main-Dh9zeCGx.css">
+      <link rel="canonical" href="https://wandetri.com/blog/building-a-living-ar-energy-network/" />
+    <meta property="og:site_name" content="wandetri" />
+    <meta property="og:image" content="https://wandetri.com/blog/images/flowing-ar-energy-network.png" />
+    <meta property="og:image:secure_url" content="https://wandetri.com/blog/images/flowing-ar-energy-network.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Flowing cyan and violet AR tracking nodes connected across a dark visual field" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Building a Living AR Energy Network — wandetri" />
+    <meta name="twitter:description" content="A practical breakdown of designing a lightweight particle and plexus system that feels like a living AR tracking network." />
+    <meta name="twitter:image" content="https://wandetri.com/blog/images/flowing-ar-energy-network.png" />
+    <meta property="article:published_time" content="2026-06-21" />
+    <meta property="article:modified_time" content="2026-06-21" />
+    <meta name="author" content="Wande Tricada" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building a Living AR Energy Network","description":"A practical breakdown of designing a lightweight particle and plexus system that feels like a living AR tracking network.","image":["https://wandetri.com/blog/images/flowing-ar-energy-network.png"],"datePublished":"2026-06-21","dateModified":"2026-06-21","mainEntityOfPage":"https://wandetri.com/blog/building-a-living-ar-energy-network/","author":{"@type":"Person","name":"Wande Tricada","url":"https://wandetri.com"},"publisher":{"@type":"Person","name":"wandetri","url":"https://wandetri.com"}}</script>
+  </head>
+  <body>
+    <div id="root"><main><article><h1>Building a Living AR Energy Network</h1><p>A practical breakdown of designing a lightweight particle and plexus system that feels like a living AR tracking network.</p><p>Interactive visuals feel more convincing when movement appears to travel through a system instead of happening everywhere at once. For the hero background on this portfolio, the goal was to suggest <strong>AR tracking points, VFX nodes, and energy flow</strong> without turning the page into a distracting technical demo.</p>
+<figure><img src="/blog/images/flowing-ar-energy-network.png" alt="A flowing network of AR tracking nodes" title="Flowing AR energy network" loading="lazy" decoding="async"></figure>
+<h2 id="start-with-a-visual-hierarchy">Start with a visual hierarchy<a class="heading-anchor" href="#start-with-a-visual-hierarchy" aria-label="Link to Start with a visual hierarchy">#</a></h2>
+<p>A useful network has more than one kind of information. I separated the visual system into four layers:</p>
+<ul><li>A dark atmospheric field that establishes depth.</li><li>Slow tracking points with different depth values.</li><li>Connections that appear only when points are close enough.</li><li>Occasional pulses that travel along selected connections.</li></ul>
+<blockquote>The animation should support the creator name, not compete with it.</blockquote>
+<h2 id="keep-particle-motion-restrained">Keep particle motion restrained<a class="heading-anchor" href="#keep-particle-motion-restrained" aria-label="Link to Keep particle motion restrained">#</a></h2>
+<p>Each point stores position, velocity, depth, radius, and a phase offset. Depth affects speed and size, creating parallax without a 3D library.</p>
+<div class="code-block"><span>js</span><pre><code class="language-js">const point = {
+  x: Math.random() * width,
+  y: Math.random() * height,
+  vx: (Math.random() - 0.5) * 0.1,
+  vy: (Math.random() - 0.5) * 0.08,
+  depth: 0.35 + Math.random() * 0.65,
+  phase: Math.random() * Math.PI * 2,
+}</code></pre></div>
+<p>The important part is not the amount of motion. It is the relationship between motion, depth, and time. A small phase variation prevents the network from moving like one rigid layer.</p>
+<h2 id="let-energy-travel-through-connections">Let energy travel through connections<a class="heading-anchor" href="#let-energy-travel-through-connections" aria-label="Link to Let energy travel through connections">#</a></h2>
+<p>The base lines remain quiet. A pulse selects one valid connection, interpolates between its endpoints, and draws only a short glowing tail.</p>
+<div class="code-block"><span>js</span><pre><code class="language-js">const progress = (time - pulse.startedAt) / pulse.duration
+const eased = progress * progress * (3 - 2 * progress)
+
+const x = from.x + (to.x - from.x) * eased
+const y = from.y + (to.y - from.y) * eased</code></pre></div>
+<p>This gives the impression that information is moving through the network. Limiting the number of simultaneous pulses keeps the system cinematic rather than chaotic.</p>
+<h2 id="performance-rules">Performance rules<a class="heading-anchor" href="#performance-rules" aria-label="Link to Performance rules">#</a></h2>
+<ol><li>Scale point count from the canvas area and cap it on mobile.</li><li>Limit device pixel ratio instead of rendering at an unnecessarily large resolution.</li><li>Pause the animation when the canvas leaves the viewport.</li><li>Render a static frame when <code>prefers-reduced-motion</code> is enabled.</li></ol>
+<p>The final effect is still a lightweight Canvas 2D animation. The premium feeling comes from timing, hierarchy, and restraint, not from a heavy rendering dependency.</p></article></main></div>
+  </body>
+</html>
