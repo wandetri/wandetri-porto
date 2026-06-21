@@ -54,12 +54,12 @@ await mkdir(blogDirectory, { recursive: true })
 
 await writeFile(join(blogDirectory, 'index.html'), buildPage({
   title: 'Blog — wandetri',
-  description: 'Notes, breakdowns, and experiments in interactive AR, VFX systems, motion, and social effects by wandetri.',
+  description: 'Notes, breakdowns, and experiments across apps, interaction design, visual systems, and creative technology by wandetri.',
   url: blogUrl,
   image: blogImage,
-  imageAlt: 'wandetri interactive AR and VFX blog',
+  imageAlt: 'wandetri field notes on design and creative technology',
   assetPrefix: '../',
-  staticContent: `<main><article><h1>wandetri Blog</h1><p>Notes, breakdowns, and experiments in interactive AR and VFX.</p>${articles.map((article) => `<h2><a href="/blog/${article.slug}/">${escapeAttribute(article.title)}</a></h2><p>${escapeAttribute(article.description)}</p>`).join('')}</article></main>`,
+  staticContent: `<main><article><h1>wandetri Blog</h1><p>Notes, breakdowns, and experiments across apps, interaction design, visual systems, and creative technology.</p>${articles.map((article) => `<h2><a href="/blog/${article.slug}/">${escapeAttribute(article.title)}</a></h2><p>${escapeAttribute(article.description)}</p>`).join('')}</article></main>`,
   jsonLd: {
     '@context': 'https://schema.org',
     '@type': 'Blog',

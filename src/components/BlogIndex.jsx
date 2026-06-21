@@ -16,16 +16,16 @@ function BlogIndex({ articles }) {
     <div className="site-shell blog-shell">
       <Seo
         title="Blog — wandetri"
-        description="Notes, breakdowns, and experiments in interactive AR, VFX systems, motion, and social effects by wandetri."
+        description="Notes, breakdowns, and experiments across apps, interaction design, visual systems, and creative technology by wandetri."
         image={socialImage}
         url={`${siteUrl}/blog/`}
       />
       <BlogHeader />
       <main className="blog-index">
         <section className="blog-index-hero">
-          <p className="eyebrow">Field Notes · AR / VFX / Interaction</p>
-          <h1>Ideas behind<br /><em>the effects.</em></h1>
-          <p>Breakdowns, experiments, and practical notes from building interactive AR effects and real-time visual systems.</p>
+          <p className="eyebrow">Field Notes · Design / Technology / Process</p>
+          <h1>Ideas behind<br /><em>the work.</em></h1>
+          <p>Breakdowns, experiments, and practical notes from building apps, interactive experiences, visual systems, and creative technology.</p>
         </section>
         <section className="blog-list" aria-label="Articles">
           {articles.map((article, index) => (

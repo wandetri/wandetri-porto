@@ -50,7 +50,7 @@ function BlogArticle({ article }) {
             <div className="article-body" dangerouslySetInnerHTML={{ __html: article.html }} />
           </div>
           <footer className="article-footer">
-            <p>More notes on interactive AR, VFX systems, and creative technology.</p>
+            <p>More notes on apps, interactive systems, visual craft, and creative technology.</p>
             <a className="button button-secondary" href="/blog/">Browse all articles</a>
           </footer>
         </article>
