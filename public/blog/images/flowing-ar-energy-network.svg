@@ -1,0 +1,34 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="cyan" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(850 210) rotate(140) scale(560 430)">
+      <stop stop-color="#2C8EAF" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#07090E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(530 540) rotate(-30) scale(520 310)">
+      <stop stop-color="#7459B8" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#07090E" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="#07090E"/>
+  <rect width="1200" height="630" fill="url(#cyan)"/>
+  <rect width="1200" height="630" fill="url(#violet)"/>
+  <g stroke="#72C9E2" stroke-opacity=".22">
+    <path d="M650 120L790 190L910 110L1040 230L930 340L1100 430"/>
+    <path d="M790 190L720 320L930 340L840 500"/>
+    <path d="M720 320L570 270L480 400L610 520L840 500"/>
+    <path d="M910 110L930 340"/>
+  </g>
+  <g fill="#BFEAF4">
+    <circle cx="650" cy="120" r="3"/><circle cx="790" cy="190" r="4"/><circle cx="910" cy="110" r="2.5"/>
+    <circle cx="1040" cy="230" r="4"/><circle cx="930" cy="340" r="5"/><circle cx="1100" cy="430" r="2.5"/>
+    <circle cx="720" cy="320" r="3"/><circle cx="840" cy="500" r="4"/><circle cx="570" cy="270" r="2.5"/>
+    <circle cx="480" cy="400" r="3"/><circle cx="610" cy="520" r="4"/>
+  </g>
+  <path d="M790 190L720 320" stroke="#86E2F2" stroke-width="4" stroke-linecap="round" filter="url(#glow)" opacity=".6"/>
+  <path d="M760 245L720 320" stroke="#D6FAFF" stroke-width="2" stroke-linecap="round"/>
+  <text x="72" y="90" fill="#9CA5AF" font-family="monospace" font-size="18" letter-spacing="4">WANDETRI / FIELD NOTES 001</text>
+  <text x="70" y="318" fill="#F2F0EC" font-family="Arial, sans-serif" font-size="72" font-weight="600" letter-spacing="-4">Building a Living</text>
+  <text x="70" y="394" fill="#F2F0EC" font-family="Arial, sans-serif" font-size="72" font-weight="600" letter-spacing="-4">AR Energy Network</text>
+  <text x="74" y="455" fill="#A9AFB7" font-family="Arial, sans-serif" font-size="24">Interactive AR · Canvas VFX · Creative Technology</text>
+</svg>

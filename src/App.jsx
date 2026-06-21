@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import About from './components/About'
+import BlogArticle from './components/BlogArticle'
+import BlogIndex from './components/BlogIndex'
 import CapCutVfxLibrary from './components/CapCutVfxLibrary'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
+import NotFound from './components/NotFound'
 import ProjectModal from './components/ProjectModal'
 import VideoGrid from './components/VideoGrid'
 import { effects } from './data/effects'
+import { blogArticles } from './generated/blogArticles'
 
-function App() {
+function Portfolio() {
   const [selectedProject, setSelectedProject] = useState(null)
 
   return (
@@ -22,6 +26,7 @@ function App() {
           <a href="#works">Works</a>
           <a href="#capcut-library">CapCut VFX</a>
           <a href="#about">About</a>
+          <a className="nav-blog" href="/blog/">Blog</a>
           <a className="nav-contact" href="#contact">Contact</a>
         </nav>
       </header>
@@ -46,6 +51,20 @@ function App() {
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   )
+}
+
+function App() {
+  const parts = window.location.pathname.split('/').filter(Boolean)
+  const blogPosition = parts.indexOf('blog')
+
+  if (blogPosition !== -1) {
+    const slug = parts[blogPosition + 1]
+    if (!slug) return <BlogIndex articles={blogArticles} />
+    const article = blogArticles.find((item) => item.slug === slug)
+    return article ? <BlogArticle article={article} /> : <NotFound />
+  }
+
+  return <Portfolio />
 }
 
 export default App

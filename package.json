@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "blog:thumbnail": "node scripts/create-blog-thumbnail.mjs",
+    "blog:generate": "node scripts/generate-blog.mjs",
+    "build": "node scripts/generate-blog.mjs && vite build && node scripts/generate-blog-pages.mjs",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
   },
