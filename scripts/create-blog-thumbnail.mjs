@@ -3,6 +3,11 @@ import { deflateSync } from 'node:zlib'
 
 const width = 1200
 const height = 630
+const variant = process.argv[2] || 'energy'
+const isKatase = variant === 'katase'
+const outputPath = isKatase
+  ? 'public/blog/images/katase-sekata-ios-app.png'
+  : 'public/blog/images/flowing-ar-energy-network.png'
 const pixels = Buffer.alloc(width * height * 4)
 
 const blend = (x, y, red, green, blue, alpha) => {
@@ -22,9 +27,9 @@ for (let y = 0; y < height; y += 1) {
     const violetDistance = Math.hypot((x - 470) / 580, (y - 540) / 360)
     const cyan = Math.max(0, 1 - cyanDistance) * 0.24
     const violet = Math.max(0, 1 - violetDistance) * 0.13
-    pixels[offset] = 7 + 32 * violet + 8 * cyan
-    pixels[offset + 1] = 9 + 48 * cyan + 18 * violet
-    pixels[offset + 2] = 14 + 65 * cyan + 55 * violet
+    pixels[offset] = isKatase ? 9 + 52 * cyan + 38 * violet : 7 + 32 * violet + 8 * cyan
+    pixels[offset + 1] = isKatase ? 10 + 20 * cyan + 42 * violet : 9 + 48 * cyan + 18 * violet
+    pixels[offset + 2] = isKatase ? 14 + 34 * violet : 14 + 65 * cyan + 55 * violet
     pixels[offset + 3] = 255
   }
 }
@@ -53,6 +58,14 @@ const line = (from, to, color, alpha, thickness = 1) => {
   }
 }
 
+const rectangle = (x, y, boxWidth, boxHeight, color, alpha) => {
+  for (let row = y; row < y + boxHeight; row += 1) {
+    for (let column = x; column < x + boxWidth; column += 1) {
+      blend(column, row, ...color, alpha)
+    }
+  }
+}
+
 const points = [
   [90, 130], [245, 85], [380, 180], [540, 115], [690, 225], [850, 120],
   [1025, 205], [1120, 350], [930, 390], [760, 335], [610, 470], [420, 390],
@@ -60,15 +73,38 @@ const points = [
 ]
 
 const edges = [[0,1],[1,2],[2,3],[2,5],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13],[13,0],[4,9],[8,14],[14,15],[15,7],[10,14],[2,11]]
-edges.forEach(([from, to], index) => line(points[from], points[to], index % 3 ? [96, 188, 215] : [145, 125, 214], 0.3, 1.1))
+edges.forEach(([from, to], index) => line(
+  points[from],
+  points[to],
+  isKatase
+    ? (index % 3 ? [222, 112, 137] : [100, 176, 139])
+    : (index % 3 ? [96, 188, 215] : [145, 125, 214]),
+  isKatase ? 0.2 : 0.3,
+  1.1,
+))
 
 points.forEach(([x, y], index) => {
-  if (index % 5 === 0) circle(x, y, 18, [74, 179, 211], 0.08)
-  circle(x, y, index % 5 === 0 ? 5 : 3.2, [205, 241, 247], 0.85)
+  if (index % 5 === 0) circle(x, y, 18, isKatase ? [219, 101, 128] : [74, 179, 211], 0.08)
+  circle(x, y, index % 5 === 0 ? 5 : 3.2, [225, 235, 232], 0.85)
 })
 
-line(points[4], points[9], [116, 224, 240], 0.42, 8)
-line([650, 255], points[9], [226, 251, 255], 0.88, 2)
+if (isKatase) {
+  rectangle(454, 88, 292, 480, [13, 16, 19], 0.94)
+  line([454, 88], [746, 88], [210, 214, 211], 0.52, 2)
+  line([746, 88], [746, 568], [210, 214, 211], 0.52, 2)
+  line([746, 568], [454, 568], [210, 214, 211], 0.52, 2)
+  line([454, 568], [454, 88], [210, 214, 211], 0.52, 2)
+  rectangle(485, 145, 230, 78, [207, 91, 121], 0.78)
+  rectangle(485, 245, 108, 108, [224, 143, 76], 0.82)
+  rectangle(607, 245, 108, 108, [83, 164, 126], 0.82)
+  rectangle(485, 374, 230, 118, [32, 40, 44], 0.98)
+  circle(600, 532, 13, [211, 216, 212], 0.65)
+  line([276, 180], [454, 280], [225, 128, 151], 0.5, 5)
+  line([746, 320], [936, 208], [104, 186, 145], 0.5, 5)
+} else {
+  line(points[4], points[9], [116, 224, 240], 0.42, 8)
+  line([650, 255], points[9], [226, 251, 255], 0.88, 2)
+}
 
 const crcTable = Array.from({ length: 256 }, (_, number) => {
   let value = number
@@ -111,5 +147,5 @@ const png = Buffer.concat([
   chunk('IEND', Buffer.alloc(0)),
 ])
 
-await writeFile('public/blog/images/flowing-ar-energy-network.png', png)
-console.log(`Created ${width}x${height} social thumbnail (${png.length} bytes).`)
+await writeFile(outputPath, png)
+console.log(`Created ${width}x${height} social thumbnail at ${outputPath} (${png.length} bytes).`)
