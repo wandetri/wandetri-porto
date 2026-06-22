@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>From Board Game Frustration to an iOS App: Building Katase for Sekata Players — wandetri</title>
-    <script type="module" crossorigin src="../../assets/index-CskgOTXQ.js"></script>
+    <script type="module" crossorigin src="../../assets/index-r9SqU42q.js"></script>
     <link rel="stylesheet" crossorigin href="../../assets/index-CYDr5mlh.css">
       <link rel="canonical" href="https://wandetri.com/blog/building-katase-ios-app-for-sekata/" />
     <meta property="og:site_name" content="wandetri" />
@@ -58,43 +58,34 @@
 <div class="code-block"><span>swift</span><pre><code class="language-swift"><span class="syntax-keyword">import</span> <span class="syntax-type">SwiftData</span>
 
 <span class="syntax-attribute">@Model</span>
+
 <span class="syntax-keyword">final</span> <span class="syntax-keyword">class</span> <span class="syntax-type">GameSession</span> {
-    <span class="syntax-keyword">var</span> startedAt: <span class="syntax-type">Date</span>
-    <span class="syntax-keyword">var</span> players: [<span class="syntax-type">Player</span>]
-    <span class="syntax-keyword">var</span> usedWords: [<span class="syntax-type">PlayedWord</span>]
 
-    <span class="syntax-keyword">init</span>(startedAt: <span class="syntax-type">Date</span> = .now) {
-        <span class="syntax-keyword">self</span>.startedAt = startedAt
-        <span class="syntax-keyword">self</span>.players = []
-        <span class="syntax-keyword">self</span>.usedWords = []
-    }
-}
+    <span class="syntax-keyword">var</span> title: <span class="syntax-type">String</span> = <span class="syntax-string">&quot;&quot;</span>
+    <span class="syntax-keyword">var</span> startingCenter: <span class="syntax-type">String</span> = <span class="syntax-string">&quot;&quot;</span>
+    <span class="syntax-keyword">var</span> currentCenter: <span class="syntax-type">String</span> = <span class="syntax-string">&quot;&quot;</span>
+    <span class="syntax-keyword">var</span> generalHelperLetters: <span class="syntax-type">String</span> = <span class="syntax-string">&quot;&quot;</span>
 
-<span class="syntax-attribute">@Model</span>
-<span class="syntax-keyword">final</span> <span class="syntax-keyword">class</span> <span class="syntax-type">PlayedWord</span> {
-    <span class="syntax-keyword">var</span> value: <span class="syntax-type">String</span>
-    <span class="syntax-keyword">var</span> playedAt: <span class="syntax-type">Date</span>
+    <span class="syntax-attribute">@Relationship</span>(deleteRule: .cascade, inverse: \<span class="syntax-type">GamePerson</span>.gameSession)
+    <span class="syntax-keyword">var</span> people: [<span class="syntax-type">GamePerson</span>]? = []
+    <span class="syntax-attribute">@Relationship</span>(deleteRule: .cascade, inverse: \<span class="syntax-type">PlayedWord</span>.gameSession)
 
-    <span class="syntax-keyword">init</span>(value: <span class="syntax-type">String</span>, playedAt: <span class="syntax-type">Date</span> = .now) {
-        <span class="syntax-keyword">self</span>.value = value
-        <span class="syntax-keyword">self</span>.playedAt = playedAt
-    }
+    <span class="syntax-keyword">var</span> playedWords: [<span class="syntax-type">PlayedWord</span>]? = []
+
 }</code></pre></div>
 <p>SwiftData gave me an ORM-like workflow that felt familiar from web development: define the models, describe their relationships, and query them through the app without manually managing every database operation.</p>
 <h2 id="preparing-194-000-kbbi-entries">Preparing 194,000 KBBI entries<a class="heading-anchor" href="#preparing-194-000-kbbi-entries" aria-label="Link to Preparing 194,000 KBBI entries">#</a></h2>
 <p>I found an open-source repository containing approximately 194,000 Indonesian vocabulary entries in CSV format. The app needed that data in a format that could be bundled and searched locally, so I converted it into SQLite.</p>
 <p>This was one place where an AI coding agent was useful. I delegated the repetitive conversion work to Codex: generating a Python import script, defining the SQLite schema, normalizing values, creating indexes, and verifying row counts.</p>
 <p>The resulting table was intentionally simple:</p>
-<div class="code-block"><span>sql</span><pre><code class="language-sql">CREATE TABLE dictionary_entries (
-    id INTEGER PRIMARY KEY,
-    word TEXT NOT NULL,
-    normalized_word TEXT NOT NULL,
-    word_class TEXT,
-    definition TEXT NOT NULL
+<div class="code-block"><span>sql</span><pre><code class="language-sql">CREATE TABLE words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lemma TEXT NOT NULL,
+    normalized TEXT NOT NULL UNIQUE,
+    definition TEXT DEFAULT &#039;&#039;,
+    word_class TEXT DEFAULT &#039;&#039;
 );
-
-CREATE INDEX idx_dictionary_normalized_word
-ON dictionary_entries(normalized_word);</code></pre></div>
+</code></pre></div>
 <p>This did not remove the need to understand the data. It reduced the mechanical work so I could spend more time checking assumptions, inspecting edge cases, and designing the product.</p>
 <h2 id="tokenizing-words-into-sekata-cards">Tokenizing words into Sekata cards<a class="heading-anchor" href="#tokenizing-words-into-sekata-cards" aria-label="Link to Tokenizing words into Sekata cards">#</a></h2>
 <p>The harder problem was determining whether a word could be constructed from the available cards.</p>
@@ -103,31 +94,6 @@ ON dictionary_entries(normalized_word);</code></pre></div>
 PO + K + A + SI
 P + O + KA + SI</code></pre></div>
 <p>A greedy approach is unreliable because choosing the longest token first can prevent a valid combination later. I used backtracking so the tokenizer could explore possible splits and stop when it found a sequence that satisfied the card rules.</p>
-<div class="code-block"><span>swift</span><pre><code class="language-swift"><span class="syntax-keyword">func</span> <span class="syntax-function">tokenize</span>(
-    _ word: <span class="syntax-type">String</span>,
-    from index: <span class="syntax-type">String</span>.<span class="syntax-type">Index</span>,
-    availableCards: [<span class="syntax-type">String</span>],
-    path: [<span class="syntax-type">String</span>] = []
-) -&gt; [[<span class="syntax-type">String</span>]] {
-    <span class="syntax-keyword">if</span> index == word.endIndex {
-        <span class="syntax-keyword">return</span> [path]
-    }
-
-    <span class="syntax-keyword">var</span> results: [[<span class="syntax-type">String</span>]] = []
-
-    <span class="syntax-keyword">for</span> card <span class="syntax-keyword">in</span> availableCards {
-        <span class="syntax-keyword">guard</span> word[index...].<span class="syntax-function">hasPrefix</span>(card) <span class="syntax-keyword">else</span> { <span class="syntax-keyword">continue</span> }
-        <span class="syntax-keyword">let</span> nextIndex = word.<span class="syntax-function">index</span>(index, offsetBy: card.count)
-        results += <span class="syntax-function">tokenize</span>(
-            word,
-            from: nextIndex,
-            availableCards: availableCards,
-            path: path + [card]
-        )
-    }
-
-    <span class="syntax-keyword">return</span> results
-}</code></pre></div>
 <p>Each possible token sequence is then checked against card color, quantity, repetition, and helper-card limits. Applying those constraints reduced approximately <strong>194,700 dictionary entries to 43,600 Sekata-valid words</strong>.</p>
 <p>That filtered dataset made in-app search much faster and gave the results a clear relationship to the real game.</p>
 <h2 id="where-the-ai-agent-helped">Where the AI agent helped<a class="heading-anchor" href="#where-the-ai-agent-helped" aria-label="Link to Where the AI agent helped">#</a></h2>
