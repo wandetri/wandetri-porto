@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08080d" />
+    <meta name="description" content="How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development." />
+    <meta property="og:title" content="From Board Game Frustration to an iOS App: Building Katase for Sekata Players — wandetri" />
+    <meta property="og:description" content="How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://wandetri.com/blog/building-katase-ios-app-for-sekata/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>From Board Game Frustration to an iOS App: Building Katase for Sekata Players — wandetri</title>
+    <script type="module" crossorigin src="../../assets/index-u-WgEzUw.js"></script>
+    <link rel="stylesheet" crossorigin href="../../assets/index-Dh9zeCGx.css">
+      <link rel="canonical" href="https://wandetri.com/blog/building-katase-ios-app-for-sekata/" />
+    <meta property="og:site_name" content="wandetri" />
+    <meta property="og:image" content="https://wandetri.com/blog/images/katase-sekata-ios-app.png" />
+    <meta property="og:image:secure_url" content="https://wandetri.com/blog/images/katase-sekata-ios-app.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Katase iOS app concept surrounded by colorful Sekata syllable cards" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="From Board Game Frustration to an iOS App: Building Katase for Sekata Players — wandetri" />
+    <meta name="twitter:description" content="How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development." />
+    <meta name="twitter:image" content="https://wandetri.com/blog/images/katase-sekata-ios-app.png" />
+    <meta property="article:published_time" content="2026-06-22" />
+    <meta property="article:modified_time" content="2026-06-22" />
+    <meta name="author" content="Wande Tricada" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"From Board Game Frustration to an iOS App: Building Katase for Sekata Players","description":"How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development.","image":["https://wandetri.com/blog/images/katase-sekata-ios-app.png"],"datePublished":"2026-06-22","dateModified":"2026-06-22","mainEntityOfPage":"https://wandetri.com/blog/building-katase-ios-app-for-sekata/","author":{"@type":"Person","name":"Wande Tricada","url":"https://wandetri.com"},"publisher":{"@type":"Person","name":"wandetri","url":"https://wandetri.com"}}</script>
+  </head>
+  <body>
+    <div id="root"><main><article><h1>From Board Game Frustration to an iOS App: Building Katase for Sekata Players</h1><p>How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development.</p><p>Between the busy activities at the Academy, my friends and I often play board games to take a break. One game we keep returning to is <strong>Sekata</strong>, a word game where players combine syllable cards and quickly say a valid Indonesian word.</p>
+<p>The core rule is straightforward: the word must exist in KBBI. In practice, that rule exposes a bigger problem. Our Indonesian vocabulary is more limited than we expect.</p>
+<p>We regularly stop to ask whether a word is slang, a regional expression, or a valid standard word. Because we come from different parts of Indonesia, words that feel completely normal to one player can be unfamiliar to everyone else. Sometimes the game appears to reach a dead end because nobody can see another possible combination.</p>
+<p>My assumption was different: <strong>the words probably still existed; we simply had not found them yet.</strong></p>
+<p>That frustration became the starting point for Katase, an iOS companion designed to help Sekata players validate words, discover possible combinations, and learn more Indonesian vocabulary.</p>
+<h2 id="why-existing-search-tools-were-not-enough">Why existing search tools were not enough<a class="heading-anchor" href="#why-existing-search-tools-were-not-enough" aria-label="Link to Why existing search tools were not enough">#</a></h2>
+<p>I could not find a practical way to search for words using syllable fragments. A query such as “find words containing both <code>po</code> and <code>ka</code>” requires more than a standard dictionary lookup.</p>
+<p>KBBI search expects a complete word. General AI search adds extra steps and does not reliably return complete or verifiable data. What I needed was a system that understood both a dictionary and the physical constraints of the Sekata deck.</p>
+<p>The first product scope therefore had two essential capabilities:</p>
+<ul><li>Check whether a word is valid according to KBBI and Sekata rules.</li><li>Search for valid words from a selected combination of syllable cards.</li></ul>
+<p>I later added session tracking so the app could also support an active Sekata game.</p>
+<h2 id="translating-the-board-game-into-constraints">Translating the board game into constraints<a class="heading-anchor" href="#translating-the-board-game-into-constraints" aria-label="Link to Translating the board game into constraints">#</a></h2>
+<p>Before writing the app, I inventoried the physical cards and counted how often each one appeared. The deck contains:</p>
+<ul><li>102 pink cards representing 52 different syllables.</li><li>13 orange cards that act as general helper cards.</li><li>10 green cards that act as personal helper cards.</li></ul>
+<p>A valid Sekata word must satisfy every rule below:</p>
+<ol><li>The word exists in KBBI.</li><li>The word has a definition.</li><li>The word can be split into syllables available in the game.</li><li>Exactly two pink cards are used.</li><li>Orange cards are used at most three times and cannot repeat.</li><li>A green card is used at most once.</li></ol>
+<p>Writing these conditions down was important. They became a testable domain model instead of informal rules held in my head.</p>
+<h2 id="choosing-swiftui-swiftdata-and-sqlite">Choosing SwiftUI, SwiftData, and SQLite<a class="heading-anchor" href="#choosing-swiftui-swiftdata-and-sqlite" aria-label="Link to Choosing SwiftUI, SwiftData, and SQLite">#</a></h2>
+<p>Data management was the area of iOS development I most needed to understand. Katase involved two very different kinds of data:</p>
+<ul><li>A large, existing KBBI dataset that should be read efficiently.</li><li>Small, user-generated records such as sessions, players, and previously used words.</li></ul>
+<p>I used <strong>SQLite</strong> for the bundled dictionary and <strong>SwiftData</strong> for mutable app data. This separation kept the large reference dataset read-only while allowing session data to use Swift-native models.</p>
+<p>A simplified SwiftData model looks like this:</p>
+<div class="code-block"><span>swift</span><pre><code class="language-swift">import SwiftData
+
+@Model
+final class GameSession {
+    var startedAt: Date
+    var players: [Player]
+    var usedWords: [PlayedWord]
+
+    init(startedAt: Date = .now) {
+        self.startedAt = startedAt
+        self.players = []
+        self.usedWords = []
+    }
+}
+
+@Model
+final class PlayedWord {
+    var value: String
+    var playedAt: Date
+
+    init(value: String, playedAt: Date = .now) {
+        self.value = value
+        self.playedAt = playedAt
+    }
+}</code></pre></div>
+<p>SwiftData gave me an ORM-like workflow that felt familiar from web development: define the models, describe their relationships, and query them through the app without manually managing every database operation.</p>
+<h2 id="preparing-194-000-kbbi-entries">Preparing 194,000 KBBI entries<a class="heading-anchor" href="#preparing-194-000-kbbi-entries" aria-label="Link to Preparing 194,000 KBBI entries">#</a></h2>
+<p>I found an open-source repository containing approximately 194,000 Indonesian vocabulary entries in CSV format. The app needed that data in a format that could be bundled and searched locally, so I converted it into SQLite.</p>
+<p>This was one place where an AI coding agent was useful. I delegated the repetitive conversion work to Codex: generating a Python import script, defining the SQLite schema, normalizing values, creating indexes, and verifying row counts.</p>
+<p>The resulting table was intentionally simple:</p>
+<div class="code-block"><span>sql</span><pre><code class="language-sql">CREATE TABLE dictionary_entries (
+    id INTEGER PRIMARY KEY,
+    word TEXT NOT NULL,
+    normalized_word TEXT NOT NULL,
+    word_class TEXT,
+    definition TEXT NOT NULL
+);
+
+CREATE INDEX idx_dictionary_normalized_word
+ON dictionary_entries(normalized_word);</code></pre></div>
+<p>This did not remove the need to understand the data. It reduced the mechanical work so I could spend more time checking assumptions, inspecting edge cases, and designing the product.</p>
+<h2 id="tokenizing-words-into-sekata-cards">Tokenizing words into Sekata cards<a class="heading-anchor" href="#tokenizing-words-into-sekata-cards" aria-label="Link to Tokenizing words into Sekata cards">#</a></h2>
+<p>The harder problem was determining whether a word could be constructed from the available cards.</p>
+<p>Consider a simplified word such as <code>POKASI</code>. Depending on the deck, the tokenizer may need to test combinations such as:</p>
+<div class="code-block"><span>text</span><pre><code class="language-text">PO + KA + SI
+PO + K + A + SI
+P + O + KA + SI</code></pre></div>
+<p>A greedy approach is unreliable because choosing the longest token first can prevent a valid combination later. I used backtracking so the tokenizer could explore possible splits and stop when it found a sequence that satisfied the card rules.</p>
+<div class="code-block"><span>swift</span><pre><code class="language-swift">func tokenize(
+    _ word: String,
+    from index: String.Index,
+    availableCards: [String],
+    path: [String] = []
+) -&gt; [[String]] {
+    if index == word.endIndex {
+        return [path]
+    }
+
+    var results: [[String]] = []
+
+    for card in availableCards {
+        guard word[index...].hasPrefix(card) else { continue }
+        let nextIndex = word.index(index, offsetBy: card.count)
+        results += tokenize(
+            word,
+            from: nextIndex,
+            availableCards: availableCards,
+            path: path + [card]
+        )
+    }
+
+    return results
+}</code></pre></div>
+<p>Each possible token sequence is then checked against card color, quantity, repetition, and helper-card limits. Applying those constraints reduced approximately <strong>194,700 dictionary entries to 43,600 Sekata-valid words</strong>.</p>
+<p>That filtered dataset made in-app search much faster and gave the results a clear relationship to the real game.</p>
+<h2 id="where-the-ai-agent-helped">Where the AI agent helped<a class="heading-anchor" href="#where-the-ai-agent-helped" aria-label="Link to Where the AI agent helped">#</a></h2>
+<p>Codex was most useful for tasks with a clear specification and verifiable output:</p>
+<ul><li>Converting CSV data into a normalized SQLite database.</li><li>Generating validation scripts and database checks.</li><li>Exploring tokenization strategies.</li><li>Implementing card constraints as testable functions.</li><li>Diagnosing Swift and data-layer errors during development.</li></ul>
+<p>The agent accelerated implementation, but product decisions still required direct judgment. I had to define the Sekata rules, inspect incorrect token combinations, decide what information mattered to players, and verify that generated code matched the intended behavior.</p>
+<p>The useful division of labor was simple: let the agent handle repeatable implementation work, then spend human attention on constraints, validation, and experience design.</p>
+<h2 id="designing-katase-around-how-people-play">Designing Katase around how people play<a class="heading-anchor" href="#designing-katase-around-how-people-play" aria-label="Link to Designing Katase around how people play">#</a></h2>
+<p>Katase currently centers on three features:</p>
+<ul><li><strong>New Session</strong> simulates a Sekata game and records players and used words.</li><li><strong>Word Check</strong> verifies whether a word exists and whether it is valid under Sekata rules.</li><li><strong>Word Search</strong> finds valid words from selected syllable combinations.</li></ul>
+<p>Whenever users select syllables, the app displays all available syllables on one screen. This mirrors how Sekata players spread cards across a table and visually scan the complete set instead of navigating through nested menus.</p>
+<p>Each search result is presented as one compact card containing:</p>
+<ul><li>Validation status.</li><li>The searched word.</li><li>Its word class, such as noun, adjective, or verb.</li><li>The matching card combination and KBBI definition.</li></ul>
+<p>These choices make Katase feel connected to the board game rather than like a generic dictionary interface.</p>
+<h2 id="what-started-as-one-question">What started as one question<a class="heading-anchor" href="#what-started-as-one-question" aria-label="Link to What started as one question">#</a></h2>
+<p>Katase began as a small attempt to answer a recurring question during a game with friends:</p>
+<blockquote>Were there really no words left, or had we simply not found them yet?</blockquote>
+<p>Building the app turned that frustration into a practical lesson about domain modeling, local data, search, tokenization, and AI-assisted development. More importantly, it created a tool that can help players continue the game while learning how much vocabulary is still left to discover.</p></article></main></div>
+  </body>
+</html>
