@@ -70,27 +70,20 @@ A simplified SwiftData model looks like this:
 import SwiftData
 
 @Model
+
 final class GameSession {
-    var startedAt: Date
-    var players: [Player]
-    var usedWords: [PlayedWord]
 
-    init(startedAt: Date = .now) {
-        self.startedAt = startedAt
-        self.players = []
-        self.usedWords = []
-    }
-}
+    var title: String = ""
+    var startingCenter: String = ""
+    var currentCenter: String = ""
+    var generalHelperLetters: String = ""
 
-@Model
-final class PlayedWord {
-    var value: String
-    var playedAt: Date
+    @Relationship(deleteRule: .cascade, inverse: \GamePerson.gameSession)
+    var people: [GamePerson]? = []
+    @Relationship(deleteRule: .cascade, inverse: \PlayedWord.gameSession)
 
-    init(value: String, playedAt: Date = .now) {
-        self.value = value
-        self.playedAt = playedAt
-    }
+    var playedWords: [PlayedWord]? = []
+
 }
 ```
 
@@ -105,16 +98,14 @@ This was one place where an AI coding agent was useful. I delegated the repetiti
 The resulting table was intentionally simple:
 
 ```sql
-CREATE TABLE dictionary_entries (
-    id INTEGER PRIMARY KEY,
-    word TEXT NOT NULL,
-    normalized_word TEXT NOT NULL,
-    word_class TEXT,
-    definition TEXT NOT NULL
+CREATE TABLE words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lemma TEXT NOT NULL,
+    normalized TEXT NOT NULL UNIQUE,
+    definition TEXT DEFAULT '',
+    word_class TEXT DEFAULT ''
 );
 
-CREATE INDEX idx_dictionary_normalized_word
-ON dictionary_entries(normalized_word);
 ```
 
 This did not remove the need to understand the data. It reduced the mechanical work so I could spend more time checking assumptions, inspecting edge cases, and designing the product.
@@ -132,34 +123,6 @@ P + O + KA + SI
 ```
 
 A greedy approach is unreliable because choosing the longest token first can prevent a valid combination later. I used backtracking so the tokenizer could explore possible splits and stop when it found a sequence that satisfied the card rules.
-
-```swift
-func tokenize(
-    _ word: String,
-    from index: String.Index,
-    availableCards: [String],
-    path: [String] = []
-) -> [[String]] {
-    if index == word.endIndex {
-        return [path]
-    }
-
-    var results: [[String]] = []
-
-    for card in availableCards {
-        guard word[index...].hasPrefix(card) else { continue }
-        let nextIndex = word.index(index, offsetBy: card.count)
-        results += tokenize(
-            word,
-            from: nextIndex,
-            availableCards: availableCards,
-            path: path + [card]
-        )
-    }
-
-    return results
-}
-```
 
 Each possible token sequence is then checked against card color, quantity, repetition, and helper-card limits. Applying those constraints reduced approximately **194,700 dictionary entries to 43,600 Sekata-valid words**.
 
