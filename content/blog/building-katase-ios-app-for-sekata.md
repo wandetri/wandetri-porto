@@ -25,6 +25,8 @@ That frustration became the starting point for Katase, an iOS companion designed
 
 I could not find a practical way to search for words using syllable fragments. A query such as “find words containing both `po` and `ka`” requires more than a standard dictionary lookup.
 
+![Animated word splitting process for Sekata syllable combinations](/blog/images/katase-word-split.gif "Word splitting process")
+
 KBBI search expects a complete word. General AI search adds extra steps and does not reliably return complete or verifiable data. What I needed was a system that understood both a dictionary and the physical constraints of the Sekata deck.
 
 The first product scope therefore had two essential capabilities:
@@ -179,13 +181,19 @@ The useful division of labor was simple: let the agent handle repeatable impleme
 
 ## Designing Katase around how people play
 
+![Katase home screen showing Sesi Baru, Cek Kata, Cari Kata, and recent sessions](/blog/images/katase-home-screen.png "Katase home screen")
+
 Katase currently centers on three features:
 
-- **New Session** simulates a Sekata game and records players and used words.
-- **Word Check** verifies whether a word exists and whether it is valid under Sekata rules.
-- **Word Search** finds valid words from selected syllable combinations.
+- **Sesi Baru** simulates a Sekata game and records players and used words.
+- **Cek Kata** verifies whether a word exists and whether it is valid under Sekata rules.
+- **Cari Kata** finds valid words from selected syllable combinations.
+
+![Katase syllable selection screens for Sesi Baru and Cari Kata](/blog/images/katase-input-screen.png "Selecting Sekata syllables in Katase")
 
 Whenever users select syllables, the app displays all available syllables on one screen. This mirrors how Sekata players spread cards across a table and visually scan the complete set instead of navigating through nested menus.
+
+![Katase word search results and word validation screens](/blog/images/katase-search-result-screen.png "Katase search results and validation")
 
 Each search result is presented as one compact card containing:
 

@@ -50,6 +50,53 @@ function renderInline(value) {
   return output
 }
 
+const swiftKeywords = new Set([
+  'associatedtype', 'async', 'await', 'break', 'case', 'catch', 'class', 'continue',
+  'default', 'defer', 'deinit', 'do', 'else', 'enum', 'extension', 'fallthrough',
+  'false', 'fileprivate', 'final', 'for', 'func', 'guard', 'if', 'import', 'in',
+  'init', 'inout', 'internal', 'is', 'let', 'nil', 'open', 'operator', 'private',
+  'protocol', 'public', 'repeat', 'rethrows', 'return', 'self', 'some', 'static',
+  'struct', 'subscript', 'super', 'switch', 'throw', 'throws', 'true', 'try',
+  'typealias', 'var', 'where', 'while',
+])
+
+const swiftTypes = new Set([
+  'Array', 'Bool', 'Character', 'Date', 'Dictionary', 'Double', 'Float', 'Int',
+  'Optional', 'Set', 'String', 'Void',
+])
+
+function highlightSwift(code) {
+  const tokens = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\.|[^"\\])*"|@\w+|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b)/g
+  let highlighted = ''
+  let lastIndex = 0
+  let match
+
+  while ((match = tokens.exec(code))) {
+    highlighted += escapeHtml(code.slice(lastIndex, match.index))
+    const token = match[0]
+    const remainder = code.slice(tokens.lastIndex)
+    let className = ''
+
+    if (token.startsWith('//') || token.startsWith('/*')) className = 'syntax-comment'
+    else if (token.startsWith('"')) className = 'syntax-string'
+    else if (token.startsWith('@')) className = 'syntax-attribute'
+    else if (/^\d/.test(token)) className = 'syntax-number'
+    else if (swiftKeywords.has(token)) className = 'syntax-keyword'
+    else if (swiftTypes.has(token) || /^[A-Z]/.test(token)) className = 'syntax-type'
+    else if (/^\s*\(/.test(remainder)) className = 'syntax-function'
+
+    const escapedToken = escapeHtml(token)
+    highlighted += className ? `<span class="${className}">${escapedToken}</span>` : escapedToken
+    lastIndex = tokens.lastIndex
+  }
+
+  return highlighted + escapeHtml(code.slice(lastIndex))
+}
+
+function highlightCode(code, language) {
+  return language.toLowerCase() === 'swift' ? highlightSwift(code) : escapeHtml(code)
+}
+
 export function renderMarkdown(markdown) {
   const lines = markdown.replaceAll('\r\n', '\n').split('\n')
   const output = []
@@ -70,7 +117,8 @@ export function renderMarkdown(markdown) {
         code.push(lines[index])
         index += 1
       }
-      output.push(`<div class="code-block"><span>${escapeHtml(language)}</span><pre><code class="language-${escapeHtml(language)}">${escapeHtml(code.join('\n'))}</code></pre></div>`)
+      const codeSource = code.join('\n')
+      output.push(`<div class="code-block"><span>${escapeHtml(language)}</span><pre><code class="language-${escapeHtml(language)}">${highlightCode(codeSource, language)}</code></pre></div>`)
       index += 1
       continue
     }

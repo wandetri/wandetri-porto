@@ -173,6 +173,13 @@ footer > a:last-child { font: 500 9px 'DM Mono', monospace; text-transform: uppe
 .code-block > span { display: block; padding: 10px 16px; color: #777d82; border-bottom: 1px solid rgba(255,255,255,.09); font: 500 8px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
 .code-block pre { margin: 0; padding: 24px; overflow-x: auto; }
 .code-block code { padding: 0; color: #c7d5d8; border: 0; background: transparent; font: 400 13px/1.75 'DM Mono', monospace; }
+.code-block .syntax-keyword { color: #d895e8; }
+.code-block .syntax-type { color: #79d4e5; }
+.code-block .syntax-function { color: #9bc8ff; }
+.code-block .syntax-string { color: #e7bc78; }
+.code-block .syntax-number { color: #b4d68a; }
+.code-block .syntax-comment { color: #748188; font-style: italic; }
+.code-block .syntax-attribute { color: #f0a16f; }
 .article-footer { max-width: 980px; margin: 120px auto 0; padding-top: 45px; display: flex; align-items: center; justify-content: space-between; gap: 30px; border-top: 1px solid var(--line); }
 .article-footer p { max-width: 520px; color: #8f8c87; line-height: 1.7; }
 .not-found main { min-height: calc(100vh - 86px); display: grid; place-content: center; justify-items: center; text-align: center; }
