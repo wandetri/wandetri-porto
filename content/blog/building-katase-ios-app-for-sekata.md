@@ -4,8 +4,8 @@ slug: building-katase-ios-app-for-sekata
 date: 2026-06-22
 updated: 2026-06-22
 description: "How a recurring Sekata board-game problem became Katase, an iOS companion built with SwiftUI, SQLite, SwiftData, and AI-assisted development."
-cover: /blog/images/katase-sekata-ios-app.png
-coverAlt: "Katase iOS app concept surrounded by colorful Sekata syllable cards"
+cover: /blog/images/katase-sekata-ios-app.gif
+coverAlt: "Animated Katase product overview with Sekata cards, app architecture, and iOS interface"
 tags: [SwiftUI, SQLite, AI Agent]
 author: "Wande Tricada"
 featured: true
